@@ -77,7 +77,6 @@
             transition: background 0.5s var(--ios-ease);
         }
 
-        /* МОДАЛЬНЫЕ ОКНА */
         .dialog-overlay {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             z-index: 950; background: rgba(0, 0, 0, 0.65);
@@ -107,7 +106,6 @@
         .dialog-btn.confirm-logout { background: var(--accent-orange); color: white; }
         .dialog-btn.confirm-delete { background: var(--accent-red); color: white; }
 
-        /* ОКНО АВТОРИЗАЦИИ */
         .auth-overlay {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             z-index: 500; background: var(--bg-color); backdrop-filter: blur(14px);
@@ -144,7 +142,6 @@
         .auth-link { color: var(--accent-blue); font-weight: 600; cursor: pointer; margin-left: 5px; }
         .auth-error { color: var(--accent-red); font-size: 0.75em; text-align: center; display: none; }
 
-        /* ЭКРАНЫ */
         .main-screen {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             display: none; flex-direction: column; background: var(--bg-color);
@@ -163,7 +160,6 @@
         }
         .slide-screen.active { transform: translateX(0); }
 
-        /* ШАПКА И ПОИСК */
         .header {
             padding: 40px 20px 15px; display: flex; align-items: center;
             justify-content: space-between; background: var(--glass-bg);
@@ -201,7 +197,6 @@
             font-size: 0.75em; color: var(--accent-blue); margin-bottom: 8px; font-weight: bold;
         }
 
-        /* СПИСКИ */
         .chat-list { flex: 1; padding: 10px; }
         .chat-item {
             display: flex; align-items: center; padding: 12px 15px; margin-bottom: 6px;
@@ -223,7 +218,6 @@
         .chat-time { font-size: 0.7em; color: var(--text-muted); }
         .chat-last-msg-line { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.8em; }
 
-        /* FAB */
         .fab {
             position: fixed; right: 20px; bottom: 105px; width: 56px; height: 56px;
             border-radius: 50%; background-color: var(--accent-blue); display: flex;
@@ -238,7 +232,6 @@
             font-size: 20px;
         }
 
-        /* НАСТРОЙКИ */
         .settings-list { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
         
         .settings-item {
@@ -401,59 +394,12 @@
         .reply-bar-text { display: flex; flex-direction: column; font-size: 0.75em; border-left: 3px solid var(--accent-blue); padding-left: 8px; }
         .reply-bar-text span { color: var(--text-muted); }
 
-        /* СТИЛИ ДЛЯ ТЕЛЕГРАМ-ПОДОБНОГО ГОЛОСОВОГО ПУЗЫРЬКА */
-        .voice-msg-player {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 4px 2px;
-            min-width: 190px;
-        }
-        .voice-play-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--accent-blue);
-            border: none;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: transform 0.2s var(--ios-ease);
-        }
-        .voice-play-btn:active {
-            transform: scale(0.9);
-        }
-        .voice-track-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .voice-waveform {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            height: 20px;
-        }
-        .voice-bar {
-            width: 3px;
-            background: var(--text-muted);
-            border-radius: 2px;
-            transition: background 0.2s;
-        }
-        .voice-duration {
-            font-size: 0.7em;
-            color: var(--text-muted);
-        }
-        .hidden-audio {
-            display: none;
-        }
-
         .msg-media { max-width: 100%; border-radius: 12px; display: block; margin-top: 4px; }
         .msg-video-note { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); }
+        .msg-audio-player { width: 200px; margin-top: 4px; }
+
+        .message-sticker { background: transparent !important; border: none !important; padding: 4px; }
+        .animated-sticker-canvas { width: 80px; height: 80px; image-rendering: pixelated; }
 
         .input-area { display: flex; flex-direction: column; background: var(--glass-bg); z-index: 30; }
         .input-controls { display: flex; align-items: center; padding: 10px 15px 25px; gap: 8px; }
@@ -556,6 +502,9 @@
         .call-btn:active { transform: scale(0.9); }
         .call-btn.end { background: var(--accent-red); }
         .call-btn.mute { background: rgba(255,255,255,0.2); }
+        .call-video-preview {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; display: none;
+        }
 
         .user-profile-header {
             display: flex; align-items: center; justify-content: space-between;
@@ -626,8 +575,9 @@
         .call-local-video { position:absolute; right:16px; top:24px; width:104px; height:148px; object-fit:cover; border-radius:16px; border:2px solid rgba(255,255,255,.75); z-index:2; display:none; }
         .call-audio { display:none; }
         .call-incoming-actions { display:flex; gap:18px; justify-content:center; margin-top:18px; }
-        .call-incoming-actions button { border:0; border-radius:24px; padding:12px 18px; color:white; background:#28a745; cursor:pointer; }
+        .call-incoming-actions button { border:0; border-radius:24px; padding:12px 18px; color:white; background:#28a745; }
         .call-incoming-actions button.reject { background:#e53935; }
+        .media-uploading { opacity:.65; pointer-events:none; }
         .msg-media, .msg-video { max-width: min(240px, 65vw); max-height:320px; border-radius:12px; display:block; }
         .msg-video-note { width:180px; height:180px; object-fit:cover; border-radius:50%; }
 
@@ -643,7 +593,10 @@
         .message:active { transform:scale(.975); filter:brightness(1.12); }
         button, .action-item, .nav-item, .back-btn, .chat-item, .profile-avatar-large { transition:transform .2s var(--ios-ease), filter .2s, background .25s; }
         button:active, .action-item:active, .nav-item:active, .chat-item:active { transform:scale(.97); filter:brightness(1.12); }
+        .glass-pop { animation:glassPop .32s var(--ios-ease) both; }
         @keyframes msgPop { from {opacity:0; transform:translateY(7px) scale(.985)} to {opacity:1; transform:translateY(0) scale(1)} }
+        @keyframes glassPop { from {opacity:0; transform:translateY(12px) scale(.97); backdrop-filter:blur(0)} to {opacity:1; transform:translateY(0) scale(1); backdrop-filter:blur(20px)} }
+
     </style>
 </head>
 <body>
@@ -863,6 +816,14 @@
                 </div>
                 <input type="range" min="8" max="14" value="10" class="font-slider-input" id="font-range-slider" oninput="updateFontSize(this.value)">
             </div>
+
+            <div class="settings-item" style="justify-content: space-between;">
+                <div class="settings-text-container">
+                    <span class="settings-title">Анимация стикеров</span>
+                    <span class="settings-subtitle">Воспроизведение в чатах</span>
+                </div>
+                <label class="toggle-switch"><input type="checkbox" id="toggle-sticker-anim" checked><span class="slider"></span></label>
+            </div>
         </div>
     </div>
 
@@ -999,7 +960,7 @@
         </div>
     </div>
 
-    <!-- 4. ПРОФИЛЬ -->
+    <!-- 4. ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ -->
     <div id="screen-profile" class="main-screen">
         <header class="header"><span class="app-name">Профиль</span></header>
         <div class="profile-container">
@@ -1014,7 +975,7 @@
         </div>
     </div>
 
-    <!-- 5. ПРОФИЛЬ СОБЕСЕДНИКА -->
+    <!-- 5. ЭКРАН ПРОФИЛЯ СОБЕСЕДНИКА -->
     <div id="screen-user-profile" class="slide-screen" style="z-index: 210;">
         <div class="user-profile-header">
             <div class="back-btn" onclick="closeSlideScreen('screen-user-profile')">
@@ -1063,7 +1024,7 @@
         </div>
     </div>
 
-    <!-- ЭКРАН ЗВОНКА -->
+    <!-- ЭКРАН ЗВОНКА И ВИДЕОЗВОНКА -->
     <div id="screen-call" class="call-screen">
         <video id="remote-video" class="call-remote-video" autoplay playsinline></video>
         <video id="local-video-bg" class="call-local-video" autoplay muted playsinline></video>
@@ -1142,7 +1103,7 @@
         </div>
     </div>
 
-    <!-- ГАЛЕРЕЯ -->
+    <!-- ВЫЕЗЖАЮЩАЯ ШТОРКА ГАЛЕРЕИ -->
     <div class="sheet-overlay" id="gallery-sheet-overlay" onclick="closeGallerySheet()"></div>
     <div class="bottom-sheet" id="gallery-sheet">
         <div class="sheet-handle-area"><div class="sheet-handle"></div></div>
@@ -1259,6 +1220,7 @@
   let isLoginMode = false;
   let typingTimeout = null;
 
+  // МЕДИАРЕКОРДЕР И ЗВОНКИ
   let mediaRecorder = null;
   let recordedChunks = [];
   let isRecording = false;
@@ -1314,6 +1276,7 @@
       }
   });
 
+  /* --- ПОИСК И НАЧАЛО ЧАТА --- */
   function toggleSearchInput() {
       const searchBar = document.getElementById('search-bar-container');
       const resultsSection = document.getElementById('search-results-container');
@@ -1406,10 +1369,9 @@
       const targetUid = targetUser.uid;
 
       const chatId = myUid < targetUid ? `${myUid}_${targetUid}` : `${targetUid}_${myUid}`;
-
       const myTitle = targetUser.nickname || targetUser.username;
-      const myChatRef = db.collection('user_chats').doc(myUid).collection('chats').doc(chatId);
       
+      const myChatRef = db.collection('user_chats').doc(myUid).collection('chats').doc(chatId);
       await myChatRef.set({
           chatId: chatId,
           title: myTitle,
@@ -1452,6 +1414,7 @@
       document.getElementById(`screen-${tabName}`).classList.add('active');
   }
 
+  /* --- ШТОРКА ГАЛЕРЕИ --- */
   function openGallerySheet() {
       document.getElementById('gallery-sheet-overlay').classList.add('active');
       document.getElementById('gallery-sheet').classList.add('active');
@@ -1502,7 +1465,7 @@
       try {
           if (!activeChatId || !auth.currentUser) throw new Error('Откройте чат перед отправкой файла.');
           const maxBytes = 100 * 1024 * 1024;
-          if (file.size > maxBytes) throw new Error('Файл больше 100 МБ.');
+          if (file.size > maxBytes) throw new Error('Файл больше 100 МБ. Выберите файл поменьше.');
           const type = file.type || '';
           let mediaType;
           if (type.startsWith('image/')) mediaType = 'image';
@@ -1529,6 +1492,7 @@
       }
   }
 
+  /* --- ГОЛОСОВЫЕ И ВИДЕОСООБЩЕНИЯ --- */
   function handleSendAction() {
       const text = document.getElementById('msg-input').value.trim();
       if (text) sendMessage();
@@ -1545,6 +1509,14 @@
       else if (currentInputMode === 'video') icon.textContent = 'videocam';
   }
 
+  document.getElementById('main-action-btn').addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      if (document.getElementById('msg-input').value.trim().length === 0) {
+          currentInputMode = currentInputMode === 'mic' ? 'video' : 'mic';
+          updateActionIcon();
+      }
+  });
+
   async function startMediaRecording(isVideoNote = false) {
       if (isRecording) { stopMediaRecording(); return; }
       if (!activeChatId || !auth.currentUser) { alert('Сначала откройте чат.'); return; }
@@ -1554,14 +1526,14 @@
           const stream = await navigator.mediaDevices.getUserMedia(constraints);
           const mimeCandidates = isVideoNote
               ? ['video/webm;codecs=vp8,opus', 'video/webm']
-              : ['audio/webm;codecs=opus', 'audio/webm'];
+              : ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/aac'];
           const mimeType = mimeCandidates.find(t => MediaRecorder.isTypeSupported(t));
           mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
           localStream = stream;
           recordedChunks = [];
           isRecording = true;
           mediaRecorder.ondataavailable = e => { if (e.data && e.data.size) recordedChunks.push(e.data); };
-          mediaRecorder.onerror = e => { alert('Ошибка записи'); cancelMediaRecording(); };
+          mediaRecorder.onerror = e => { alert('Ошибка записи: ' + (e.error?.message || 'неизвестная ошибка')); cancelMediaRecording(); };
           mediaRecorder.onstop = async () => {
               stream.getTracks().forEach(track => track.stop());
               if (localStream === stream) localStream = null;
@@ -1616,37 +1588,7 @@
       updateActionIcon();
   }
 
-  /* --- ПЕРЕКЛЮЧЕНИЕ ВОСПРОИЗВЕДЕНИЯ ГОЛОСОВЫХ (ТЕЛЕГРАМ СТИЛЬ) --- */
-  function toggleVoicePlay(btn) {
-      const player = btn.closest('.voice-msg-player');
-      const audio = player.querySelector('audio');
-      const icon = btn.querySelector('.material-icons-round');
-      
-      document.querySelectorAll('.voice-msg-player audio').forEach(a => {
-          if (a !== audio && !a.paused) {
-              a.pause();
-              a.currentTime = 0;
-              const otherBtn = a.closest('.voice-msg-player').querySelector('.voice-play-btn .material-icons-round');
-              if (otherBtn) otherBtn.textContent = 'play_arrow';
-          }
-      });
-
-      if (audio.paused) {
-          audio.play().then(() => {
-              icon.textContent = 'pause';
-          }).catch(err => {
-              console.error("Audio play error:", err);
-          });
-      } else {
-          audio.pause();
-          icon.textContent = 'play_arrow';
-      }
-
-      audio.onended = () => {
-          icon.textContent = 'play_arrow';
-      };
-  }
-
+  /* --- WEBRTC ЗВОНКИ --- */
   function listenForIncomingCalls(uid) {
       if (incomingCallRef) incomingCallRef.off();
       incomingCallRef = firebase.database().ref(`users/${uid}/incomingCall`);
@@ -1719,6 +1661,13 @@
       callListeners.push(() => statusRef.off('value', statusListener));
       peerConnection.onicecandidate = event => {
           if (event.candidate) firebase.database().ref(`calls/${callId}/${isCaller ? 'callerCandidates' : 'calleeCandidates'}`).push(event.candidate.toJSON());
+      };
+      peerConnection.onconnectionstatechange = () => {
+          const status = document.getElementById('call-status-text');
+          if (!status || !peerConnection) return;
+          const labels = { connected: 'На связи', connecting: 'Соединение…', disconnected: 'Связь прервана', failed: 'Не удалось соединиться', closed: 'Звонок завершён' };
+          status.textContent = labels[peerConnection.connectionState] || 'Соединение…';
+          if (peerConnection.connectionState === 'failed') endCall();
       };
       if (!localStream) throw new Error('Нет локального медиапотока.');
       localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
@@ -1982,28 +1931,7 @@
                       if (data.mediaType === 'image') mediaHtml = `<img src="${data.mediaUrl}" class="msg-media" loading="lazy">`;
                       else if (data.mediaType === 'video') mediaHtml = `<video src="${data.mediaUrl}" class="msg-video" controls playsinline preload="metadata"></video>`;
                       else if (data.mediaType === 'video_note') mediaHtml = `<video src="${data.mediaUrl}" autoplay loop muted playsinline class="msg-video-note"></video>`;
-                      else if (data.mediaType === 'voice') {
-                          /* ТЕЛЕГРАМ-ПОДОБНЫЙ ПУЗЫРЕК ГОЛОСОВОГО СООБЩЕНИЯ С КНОПКОЙ СТАРТ */
-                          mediaHtml = `
-                              <div class="voice-msg-player">
-                                  <button class="voice-play-btn" onclick="toggleVoicePlay(this)"><span class="material-icons-round">play_arrow</span></button>
-                                  <div class="voice-track-info">
-                                      <div class="voice-waveform">
-                                          <div class="voice-bar" style="height: 40%"></div>
-                                          <div class="voice-bar" style="height: 70%"></div>
-                                          <div class="voice-bar" style="height: 100%"></div>
-                                          <div class="voice-bar" style="height: 60%"></div>
-                                          <div class="voice-bar" style="height: 85%"></div>
-                                          <div class="voice-bar" style="height: 50%"></div>
-                                          <div class="voice-bar" style="height: 95%"></div>
-                                          <div class="voice-bar" style="height: 40%"></div>
-                                      </div>
-                                      <div class="voice-duration">Голосовое сообщение</div>
-                                  </div>
-                                  <audio src="${data.mediaUrl}" class="hidden-audio" preload="metadata"></audio>
-                              </div>
-                          `;
-                      }
+                      else if (data.mediaType === 'voice') mediaHtml = `<audio src="${data.mediaUrl}" controls class="msg-audio-player"></audio>`;
                       msgEl.innerHTML = replyHtml + mediaHtml;
                   } else {
                       msgEl.className = `message ${isMe ? 'msg-sent' : 'msg-received'}`;
@@ -2096,6 +2024,7 @@
       eye.textContent = showing ? 'visibility_off' : 'visibility';
       monkey.textContent = showing ? '🙉' : '🙈';
       monkey.classList.toggle('peek', showing);
+      document.getElementById('password-eye').setAttribute('aria-label', showing ? 'Скрыть пароль' : 'Показать пароль');
   }
 
   function applyAvatar(url) {
@@ -2112,7 +2041,7 @@
       const file = event.target.files && event.target.files[0];
       if (!file || !auth.currentUser) return;
       if (!file.type.startsWith('image/')) { alert('Выберите изображение.'); return; }
-      if (file.size > 5 * 1024 * 1024) { alert('Максимальный размер 5 МБ.'); return; }
+      if (file.size > 5 * 1024 * 1024) { alert('Размер аватарки не должен превышать 5 МБ.'); return; }
       try {
           const ref = storage.ref(`avatars/${auth.currentUser.uid}/avatar_${Date.now()}`);
           const snapshot = await ref.put(file);
@@ -2121,7 +2050,7 @@
           currentUserData = { ...(currentUserData || {}), avatarUrl: url };
           applyAvatar(url);
           alert('Аватарка обновлена!');
-      } catch (error) { console.error(error); alert('Не удалось загрузить аватарку.'); }
+      } catch (error) { console.error(error); alert('Не удалось загрузить аватарку. Проверьте правила Firebase Storage.'); }
       event.target.value = '';
   }
 
@@ -2137,9 +2066,14 @@
       
       const timeStr = date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
       
-      if (sameDay) return `был(а) сегодня в ${timeStr}`;
-      else if (date.toDateString() === yesterday.toDateString()) return `был(а) вчера в ${timeStr}`;
-      else return `был(а) ${date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })} в ${timeStr}`;
+      if (sameDay) {
+          return `был(а) сегодня в ${timeStr}`;
+      } else if (date.toDateString() === yesterday.toDateString()) {
+          return `был(а) вчера в ${timeStr}`;
+      } else {
+          const dateStr = date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+          return `был(а) ${dateStr} в ${timeStr}`;
+      }
   }
 
   function startPresenceTracking(uid) {
@@ -2150,6 +2084,13 @@
           const onlineData = { state:'online', last_changed: firebase.database.ServerValue.TIMESTAMP };
           presenceRef.onDisconnect().set({ state:'offline', last_changed: firebase.database.ServerValue.TIMESTAMP }).then(() => presenceRef.set(onlineData));
       });
+      const heartbeat = () => setUserOnlineStatus(!document.hidden);
+      document.removeEventListener('visibilitychange', heartbeat);
+      document.addEventListener('visibilitychange', heartbeat);
+      window.addEventListener('pagehide', () => {
+          presenceRef.set({ state:'offline', last_changed: firebase.database.ServerValue.TIMESTAMP });
+          setUserOnlineStatus(false);
+      }, { once:true });
   }
 
   async function handleEditMessageAction() {
@@ -2178,7 +2119,7 @@
       if (!username.startsWith('@')) username = '@' + username;
       const virtualEmail = `${username.replace('@', '').toLowerCase()}@gramka.app`;
       if (!username || !password || (!isLoginMode && !nickname)) { alert('Заполните все поля.'); return; }
-      if (!isLoginMode && password.length < 6) { alert('Минимум 6 символов для пароля.'); return; }
+      if (!isLoginMode && password.length < 6) { alert('Пароль должен содержать не менее 6 символов.'); return; }
 
       try {
           if (!isLoginMode) {
