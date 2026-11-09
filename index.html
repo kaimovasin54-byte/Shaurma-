@@ -25,7 +25,6 @@
             --msg-sent: rgba(42, 129, 243, 0.25);
             --msg-received: rgba(255, 255, 255, 0.08);
             --ios-ease: cubic-bezier(0.16, 1, 0.3, 1);
-            --ios-spring: cubic-bezier(0.25, 1, 0.5, 1);
             --card-bg: #182232;
             --app-font: 'Press Start 2P', monospace;
             --base-font-size: 10px;
@@ -103,7 +102,6 @@
         }
         .dialog-btn:active { transform: scale(0.95); }
         .dialog-btn.cancel { background: var(--search-bg); color: var(--text-main); }
-        .dialog-btn.confirm-logout { background: var(--accent-orange); color: white; }
         .dialog-btn.confirm-delete { background: var(--accent-red); color: white; }
 
         .auth-overlay {
@@ -394,12 +392,9 @@
         .reply-bar-text { display: flex; flex-direction: column; font-size: 0.75em; border-left: 3px solid var(--accent-blue); padding-left: 8px; }
         .reply-bar-text span { color: var(--text-muted); }
 
-        .msg-media { max-width: 100%; border-radius: 12px; display: block; margin-top: 4px; }
-        .msg-video-note { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); }
+        .msg-media { max-width: min(240px, 65vw); max-height: 320px; border-radius: 12px; display: block; margin-top: 4px; }
+        .msg-video-note { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); }
         .msg-audio-player { width: 200px; margin-top: 4px; }
-
-        .message-sticker { background: transparent !important; border: none !important; padding: 4px; }
-        .animated-sticker-canvas { width: 80px; height: 80px; image-rendering: pixelated; }
 
         .input-area { display: flex; flex-direction: column; background: var(--glass-bg); z-index: 30; }
         .input-controls { display: flex; align-items: center; padding: 10px 15px 25px; gap: 8px; }
@@ -441,27 +436,12 @@
             flex: 1; padding: 10px 5px; overflow-y: auto; display: grid; gap: 8px 4px; align-content: start;
         }
         .grid-emoji { grid-template-columns: repeat(8, 1fr); text-align: center; font-size: 1.8em; }
-        .grid-stickers { grid-template-columns: repeat(4, 1fr); justify-items: center; }
-
-        .emoji-item { 
-            cursor: pointer; padding: 2px; border-radius: 8px; transition: transform 0.15s var(--ios-ease); 
-            display: flex; justify-content: center; align-items: center;
-        }
-        .emoji-item:active { transform: scale(1.3); }
-
-        .sticker-item {
-            cursor: pointer; width: 65px; height: 65px;
-            border-radius: 12px; background: var(--search-bg);
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid var(--glass-border); transition: transform 0.2s var(--ios-ease); position: relative;
-        }
-        .sticker-item:active { transform: scale(0.9); }
 
         .bottom-nav {
             position: fixed; bottom: 15px; left: 15px; right: 15px; height: 65px;
             background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border); border-radius: 35px; display: flex;
-            justify-around: align-items; z-index: 100;
+            justify-content: space-around; align-items: center; z-index: 100;
             transition: transform 0.4s var(--ios-ease);
         }
 
@@ -494,7 +474,7 @@
         }
         .call-user-name { font-size: 1.4em; font-weight: 700; margin-top: 15px; color: #fff; }
         .call-status { font-size: 0.9em; color: var(--text-muted); margin-top: 5px; }
-        .call-controls { display: flex; gap: 20px; margin-bottom: 20px; }
+        .call-controls { display: flex; gap: 20px; margin-bottom: 20px; z-index: 5; }
         .call-btn {
             width: 64px; height: 64px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
             border: none; cursor: pointer; color: white; transition: transform 0.2s var(--ios-ease);
@@ -502,9 +482,6 @@
         .call-btn:active { transform: scale(0.9); }
         .call-btn.end { background: var(--accent-red); }
         .call-btn.mute { background: rgba(255,255,255,0.2); }
-        .call-video-preview {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; display: none;
-        }
 
         .user-profile-header {
             display: flex; align-items: center; justify-content: space-between;
@@ -543,43 +520,15 @@
             border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px;
             cursor: pointer; transition: background 0.2s;
         }
-        .user-info-card:active { background: var(--search-bg); }
         .user-info-title { font-size: 0.95em; color: var(--text-main); font-weight: 600; }
         .user-info-subtitle { font-size: 0.7em; color: var(--text-muted); }
 
-        .profile-tabs-scroll {
-            display: flex; gap: 8px; width: 100%; overflow-x: auto; padding-bottom: 5px;
-            scrollbar-width: none;
-        }
-        .profile-tabs-scroll::-webkit-scrollbar { display: none; }
-        
-        .profile-tab-pill {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 8px 14px; font-size: 0.75em; color: var(--text-muted);
-            white-space: nowrap; cursor: pointer; transition: all 0.3s var(--ios-ease); display: flex; align-items: center; gap: 4px;
-        }
-        .profile-tab-pill.active {
-            background: var(--accent-blue); color: white; border-color: var(--accent-blue);
-        }
-
-        .profile-tab-view {
-            width: 100%; min-height: 200px; background: var(--card-bg);
-            border: 1px solid var(--glass-border); border-radius: 20px; padding: 12px;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-
-        .tab-empty-msg {
-            color: var(--text-muted); font-size: 0.8em; text-align: center; padding: 30px 10px; width: 100%;
-        }
         .call-remote-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; background:#080b12; display:none; }
         .call-local-video { position:absolute; right:16px; top:24px; width:104px; height:148px; object-fit:cover; border-radius:16px; border:2px solid rgba(255,255,255,.75); z-index:2; display:none; }
         .call-audio { display:none; }
         .call-incoming-actions { display:flex; gap:18px; justify-content:center; margin-top:18px; }
-        .call-incoming-actions button { border:0; border-radius:24px; padding:12px 18px; color:white; background:#28a745; }
+        .call-incoming-actions button { border:0; border-radius:24px; padding:12px 18px; color:white; background:#28a745; cursor:pointer; }
         .call-incoming-actions button.reject { background:#e53935; }
-        .media-uploading { opacity:.65; pointer-events:none; }
-        .msg-media, .msg-video { max-width: min(240px, 65vw); max-height:320px; border-radius:12px; display:block; }
-        .msg-video-note { width:180px; height:180px; object-fit:cover; border-radius:50%; }
 
         .profile-avatar-large, .nav-profile-avatar, .chat-avatar, .user-avatar-hero, #current-chat-avatar { overflow:hidden; background-size:cover; background-position:center; }
         .profile-avatar-large img, .nav-profile-avatar img, .chat-avatar img, .user-avatar-hero img, #current-chat-avatar img { width:100%; height:100%; object-fit:cover; border-radius:inherit; }
@@ -593,25 +542,14 @@
         .message:active { transform:scale(.975); filter:brightness(1.12); }
         button, .action-item, .nav-item, .back-btn, .chat-item, .profile-avatar-large { transition:transform .2s var(--ios-ease), filter .2s, background .25s; }
         button:active, .action-item:active, .nav-item:active, .chat-item:active { transform:scale(.97); filter:brightness(1.12); }
-        .glass-pop { animation:glassPop .32s var(--ios-ease) both; }
-        @keyframes msgPop { from {opacity:0; transform:translateY(7px) scale(.985)} to {opacity:1; transform:translateY(0) scale(1)} }
-        @keyframes glassPop { from {opacity:0; transform:translateY(12px) scale(.97); backdrop-filter:blur(0)} to {opacity:1; transform:translateY(0) scale(1); backdrop-filter:blur(20px)} }
 
+        @keyframes msgPop { from {opacity:0; transform:translateY(7px) scale(.985)} to {opacity:1; transform:translateY(0) scale(1)} }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     </style>
 </head>
 <body>
 
 <div class="app-container" id="app-wrapper">
-
-    <div id="dialog-confirm" class="dialog-overlay">
-        <div class="dialog-box">
-            <h3 id="dialog-confirm-title">Вы уверены?</h3>
-            <div class="dialog-buttons">
-                <button class="dialog-btn cancel" onclick="closeConfirmDialog()">Отмена</button>
-                <button class="dialog-btn confirm-delete" id="dialog-confirm-btn" onclick="executeConfirmAction()">Удалить</button>
-            </div>
-        </div>
-    </div>
 
     <!-- АВТОРИЗАЦИЯ -->
     <div id="auth-overlay" class="auth-overlay">
@@ -667,7 +605,6 @@
         </div>
 
         <main class="chat-list" id="chats-list-container"></main>
-        <button class="fab" onclick="openActionSheet()"><span class="material-icons-round">edit</span></button>
     </div>
 
     <!-- 2. КОНТАКТЫ -->
@@ -680,287 +617,14 @@
     <div id="screen-settings" class="main-screen">
         <header class="header"><span class="app-name">Настройки</span></header>
         <div class="settings-list">
-            
-            <div class="settings-item" onclick="openSlideScreen('screen-account-settings')">
-                <div class="setting-icon-box setting-icon-account"><span class="material-icons-round">person</span></div>
-                <div class="settings-text-container">
-                    <span class="settings-title">Аккаунт</span>
-                    <span class="settings-subtitle">Номер, имя пользователя, «О себе»</span>
-                </div>
-            </div>
-
-            <div class="settings-item" onclick="openSlideScreen('screen-appearance')">
-                <div class="setting-icon-box setting-icon-chats"><span class="material-icons-round">chat</span></div>
-                <div class="settings-text-container">
-                    <span class="settings-title">Настройки чатов</span>
-                    <span class="settings-subtitle">Обои, ночной режим, анимации</span>
-                </div>
-            </div>
-
-            <div class="settings-item" onclick="openSlideScreen('screen-privacy')">
-                <div class="setting-icon-box setting-icon-privacy"><span class="material-icons-round">vpn_key</span></div>
-                <div class="settings-text-container">
-                    <span class="settings-title">Конфиденциальность</span>
-                    <span class="settings-subtitle">Время захода, устройства, заблокированные</span>
-                </div>
-            </div>
-
-            <div class="settings-item" onclick="openSlideScreen('screen-notifications')">
-                <div class="setting-icon-box setting-icon-notif"><span class="material-icons-round">notifications</span></div>
-                <div class="settings-text-container">
-                    <span class="settings-title">Уведомления</span>
-                    <span class="settings-subtitle">Звуки, звонки, счётчик сообщений</span>
-                </div>
-            </div>
-
-            <div class="settings-item" onclick="openSlideScreen('screen-data-storage')">
-                <div class="setting-icon-box setting-icon-data"><span class="material-icons-round">pie_chart</span></div>
-                <div class="settings-text-container">
-                    <span class="settings-title">Данные и память</span>
-                    <span class="settings-subtitle">Настройки загрузки медиафайлов</span>
-                </div>
-            </div>
-
-            <div class="settings-item" onclick="openSlideScreen('screen-chat-folders')">
-                <div class="setting-icon-box setting-icon-folders"><span class="material-icons-round">folder</span></div>
-                <div class="settings-text-container">
-                    <span class="settings-title">Папки с чатами</span>
-                    <span class="settings-subtitle">Сортировка чатов по папкам</span>
-                </div>
-            </div>
-
-            <div class="settings-item" onclick="openSlideScreen('screen-devices')">
-                <div class="setting-icon-box setting-icon-devices"><span class="material-icons-round">laptop</span></div>
-                <div class="settings-text-container">
-                    <span class="settings-title">Устройства</span>
-                    <span class="settings-subtitle">Управление активными сеансами</span>
-                </div>
-            </div>
-
-            <div class="settings-item" onclick="openSlideScreen('screen-energy')">
-                <div class="setting-icon-box setting-icon-energy"><span class="material-icons-round">battery_saver</span></div>
-                <div class="settings-text-container">
-                    <span class="settings-title">Энергосбережение</span>
-                    <span class="settings-subtitle">Экономия энергии при низком заряде</span>
-                </div>
-            </div>
-
-            <div class="settings-item" onclick="openSlideScreen('screen-language')">
-                <div class="setting-icon-box setting-icon-language"><span class="material-icons-round">language</span></div>
-                <div class="settings-text-container">
-                    <span class="settings-title">Язык</span>
-                    <span class="settings-subtitle" id="selected-language-label">Русский</span>
-                </div>
-            </div>
-
-            <div class="settings-item logout-btn" onclick="promptLogout()">
+            <div class="settings-item logout-btn" onclick="auth.signOut()">
                 <span class="material-icons-round">logout</span>
                 <span class="settings-title">Выйти из аккаунта</span>
             </div>
-
-            <div class="settings-item delete-btn" onclick="promptDeleteAccount()">
-                <span class="material-icons-round">delete_forever</span>
-                <span class="settings-title">Удалить аккаунт</span>
-            </div>
-
         </div>
     </div>
 
-    <!-- ПОДЭКРАНЫ НАСТРОЕК -->
-    <div id="screen-account-settings" class="slide-screen">
-        <div class="chat-header">
-            <div class="back-btn" onclick="closeSlideScreen('screen-account-settings')">
-                <span class="material-icons-round">arrow_back_ios_new</span>
-                <span>Назад</span>
-            </div>
-            <div class="chat-header-info"><span class="chat-name">Изменить ник</span></div>
-        </div>
-        <div class="settings-list">
-            <div class="input-group">
-                <label>Телефон / Логин</label>
-                <input type="text" id="setting-phone" value="+7 (999) 000-00-00">
-            </div>
-            <div class="input-group">
-                <label>Имя пользователя</label>
-                <input type="text" id="setting-username-val" placeholder="@username">
-            </div>
-            <div class="input-group">
-                <label>О себе (Био)</label>
-                <input type="text" id="setting-bio" placeholder="Пишу код, делаю стикеры...">
-            </div>
-            <button class="auth-btn" onclick="saveAccountDetails()">Сохранить изменения</button>
-        </div>
-    </div>
-
-    <div id="screen-appearance" class="slide-screen">
-        <div class="chat-header">
-            <div class="back-btn" onclick="closeSlideScreen('screen-appearance')">
-                <span class="material-icons-round">arrow_back_ios_new</span>
-                <span>Назад</span>
-            </div>
-            <div class="chat-header-info"><span class="chat-name">Настройки чатов</span></div>
-        </div>
-        <div class="settings-list">
-            <div class="settings-item" onclick="toggleTheme()">
-                <span class="material-icons-round" style="color: var(--accent-blue);">brightness_4</span>
-                <div class="settings-text-container">
-                    <span class="settings-title">Тема оформления</span>
-                    <span class="settings-subtitle" id="theme-status">Тёмная</span>
-                </div>
-            </div>
-
-            <div class="font-slider-container">
-                <div class="font-slider-header">
-                    <label>Размер текста</label>
-                    <span id="font-size-val">10px</span>
-                </div>
-                <input type="range" min="8" max="14" value="10" class="font-slider-input" id="font-range-slider" oninput="updateFontSize(this.value)">
-            </div>
-
-            <div class="settings-item" style="justify-content: space-between;">
-                <div class="settings-text-container">
-                    <span class="settings-title">Анимация стикеров</span>
-                    <span class="settings-subtitle">Воспроизведение в чатах</span>
-                </div>
-                <label class="toggle-switch"><input type="checkbox" id="toggle-sticker-anim" checked><span class="slider"></span></label>
-            </div>
-        </div>
-    </div>
-
-    <div id="screen-privacy" class="slide-screen">
-        <div class="chat-header">
-            <div class="back-btn" onclick="closeSlideScreen('screen-privacy')">
-                <span class="material-icons-round">arrow_back_ios_new</span>
-                <span>Назад</span>
-            </div>
-            <div class="chat-header-info"><span class="chat-name">Конфиденциальность</span></div>
-        </div>
-        <div class="settings-list">
-            <div class="settings-item" style="justify-content: space-between;">
-                <div class="settings-text-container">
-                    <span class="settings-title">Время захода в сеть</span>
-                    <span class="settings-subtitle">Кто видит статус онлайн</span>
-                </div>
-                <select class="settings-select" id="privacy-lastseen">
-                    <option value="all">Все</option>
-                    <option value="contacts" selected>Контакты</option>
-                    <option value="nobody">Никто</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <div id="screen-notifications" class="slide-screen">
-        <div class="chat-header">
-            <div class="back-btn" onclick="closeSlideScreen('screen-notifications')">
-                <span class="material-icons-round">arrow_back_ios_new</span>
-                <span>Назад</span>
-            </div>
-            <div class="chat-header-info"><span class="chat-name">Уведомления</span></div>
-        </div>
-        <div class="settings-list">
-            <div class="settings-item" style="justify-content: space-between;">
-                <span class="settings-title">Звуки сообщений</span>
-                <label class="toggle-switch"><input type="checkbox" id="notif-chats" checked><span class="slider"></span></label>
-            </div>
-            <div class="settings-item" style="justify-content: space-between;">
-                <span class="settings-title">Звонки</span>
-                <label class="toggle-switch"><input type="checkbox" id="notif-calls" checked><span class="slider"></span></label>
-            </div>
-        </div>
-    </div>
-
-    <div id="screen-data-storage" class="slide-screen">
-        <div class="chat-header">
-            <div class="back-btn" onclick="closeSlideScreen('screen-data-storage')">
-                <span class="material-icons-round">arrow_back_ios_new</span>
-                <span>Назад</span>
-            </div>
-            <div class="chat-header-info"><span class="chat-name">Данные и память</span></div>
-        </div>
-        <div class="settings-list">
-            <div class="settings-item" onclick="alert('Кэш очищен')">
-                <span class="material-icons-round" style="color: var(--accent-blue);">cleaning_services</span>
-                <div class="settings-text-container">
-                    <span class="settings-title">Очистить кэш</span>
-                    <span class="settings-subtitle">Занято ~1.2 MB</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="screen-chat-folders" class="slide-screen">
-        <div class="chat-header">
-            <div class="back-btn" onclick="closeSlideScreen('screen-chat-folders')">
-                <span class="material-icons-round">arrow_back_ios_new</span>
-                <span>Назад</span>
-            </div>
-            <div class="chat-header-info"><span class="chat-name">Папки с чатами</span></div>
-        </div>
-        <div class="settings-list">
-            <div class="settings-item">
-                <span class="material-icons-round" style="color: var(--text-muted);">folder_open</span>
-                <div class="settings-text-container">
-                    <span class="settings-title">Личные</span>
-                    <span class="settings-subtitle">Все диалоги</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="screen-devices" class="slide-screen">
-        <div class="chat-header">
-            <div class="back-btn" onclick="closeSlideScreen('screen-devices')">
-                <span class="material-icons-round">arrow_back_ios_new</span>
-                <span>Назад</span>
-            </div>
-            <div class="chat-header-info"><span class="chat-name">Устройства</span></div>
-        </div>
-        <div class="settings-list">
-            <div class="settings-item">
-                <span class="material-icons-round" style="color: var(--accent-green);">smartphone</span>
-                <div class="settings-text-container">
-                    <span class="settings-title">Gramka Web (Текущий)</span>
-                    <span class="settings-subtitle">В сети • Chrome</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="screen-energy" class="slide-screen">
-        <div class="chat-header">
-            <div class="back-btn" onclick="closeSlideScreen('screen-energy')">
-                <span class="material-icons-round">arrow_back_ios_new</span>
-                <span>Назад</span>
-            </div>
-            <div class="chat-header-info"><span class="chat-name">Энергосбережение</span></div>
-        </div>
-        <div class="settings-list">
-            <div class="settings-item" style="justify-content: space-between;">
-                <div class="settings-text-container">
-                    <span class="settings-title">Режим экономии</span>
-                    <span class="settings-subtitle">Отключать анимации</span>
-                </div>
-                <label class="toggle-switch"><input type="checkbox" id="energy-mode" checked><span class="slider"></span></label>
-            </div>
-        </div>
-    </div>
-
-    <div id="screen-language" class="slide-screen">
-        <div class="chat-header">
-            <div class="back-btn" onclick="closeSlideScreen('screen-language')">
-                <span class="material-icons-round">arrow_back_ios_new</span>
-                <span>Назад</span>
-            </div>
-            <div class="chat-header-info"><span class="chat-name">Язык</span></div>
-        </div>
-        <div class="settings-list">
-            <div class="settings-item" onclick="setLanguage('Русский')"><span class="settings-title">Русский</span></div>
-            <div class="settings-item" onclick="setLanguage('English')"><span class="settings-title">English</span></div>
-        </div>
-    </div>
-
-    <!-- 4. ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ -->
+    <!-- 4. ПРОФИЛЬ -->
     <div id="screen-profile" class="main-screen">
         <header class="header"><span class="app-name">Профиль</span></header>
         <div class="profile-container">
@@ -971,17 +635,15 @@
                 <label>Имя / Никнейм</label>
                 <input type="text" id="username-input" value="Пользователь">
             </div>
-            <button class="save-btn" style="width: 100%; background: var(--accent-blue); color: white; border: none; padding: 14px; border-radius: 16px; font-weight: 600; cursor: pointer;" onclick="saveProfileChanges()">Сохранить</button>
         </div>
     </div>
 
-    <!-- 5. ЭКРАН ПРОФИЛЯ СОБЕСЕДНИКА -->
+    <!-- 5. ПРОФИЛЬ СОБЕСЕДНИКА -->
     <div id="screen-user-profile" class="slide-screen" style="z-index: 210;">
         <div class="user-profile-header">
             <div class="back-btn" onclick="closeSlideScreen('screen-user-profile')">
                 <span class="material-icons-round">arrow_back</span>
             </div>
-            <span class="material-icons-round" style="cursor: pointer; color: var(--text-main);">more_vert</span>
         </div>
 
         <div class="user-profile-content">
@@ -993,10 +655,6 @@
                     <span class="material-icons-round">chat_bubble_outline</span>
                     <span>Чат</span>
                 </div>
-                <div class="user-action-btn" onclick="toggleUserProfileMute(this)">
-                    <span class="material-icons-round" id="user-profile-mute-icon">notifications_off</span>
-                    <span id="user-profile-mute-text">Звук</span>
-                </div>
                 <div class="user-action-btn" onclick="startCall(false)">
                     <span class="material-icons-round">call</span>
                     <span>Звонок</span>
@@ -1007,19 +665,9 @@
                 </div>
             </div>
 
-            <div class="user-info-card" onclick="copyUsernameToClipboard()">
+            <div class="user-info-card">
                 <div class="user-info-title" id="user-profile-username-el">@username</div>
                 <div class="user-info-subtitle">Имя пользователя</div>
-            </div>
-
-            <div class="profile-tabs-scroll">
-                <div class="profile-tab-pill active" onclick="switchProfileTab('media', this)" id="tab-pill-media">Медиа:0</div>
-                <div class="profile-tab-pill" onclick="switchProfileTab('links', this)" id="tab-pill-links">Ссылки:0</div>
-                <div class="profile-tab-pill" onclick="switchProfileTab('music', this)" id="tab-pill-music">Музыка:0</div>
-            </div>
-
-            <div class="profile-tab-view" id="profile-tab-content-area">
-                <div class="tab-empty-msg">Нет отправленных файлов</div>
             </div>
         </div>
     </div>
@@ -1029,7 +677,7 @@
         <video id="remote-video" class="call-remote-video" autoplay playsinline></video>
         <video id="local-video-bg" class="call-local-video" autoplay muted playsinline></video>
         <audio id="remote-audio" class="call-audio" autoplay></audio>
-        <div style="display: flex; flex-direction: column; align-items: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; z-index: 5;">
             <div class="call-user-avatar" id="call-avatar">?</div>
             <div class="call-user-name" id="call-name">Собеседник</div>
             <div class="call-status" id="call-status-text">Вызов...</div>
@@ -1062,15 +710,6 @@
         
         <div class="messages-container" id="messages-container"></div>
 
-        <div class="emoji-picker-container" id="emoji-picker">
-            <div class="picker-tabs">
-                <div class="picker-tab active" onclick="switchPickerTab('emoji', this)">Эмодзи</div>
-                <div class="picker-tab" onclick="switchPickerTab('stickers', this)">Стикеры</div>
-            </div>
-            <div class="picker-content grid-emoji" id="picker-emoji-list"></div>
-            <div class="picker-content grid-stickers" id="picker-stickers-list" style="display: none;"></div>
-        </div>
-
         <div class="input-area">
             <div class="chat-reply-bar" id="chat-reply-bar">
                 <div class="reply-bar-text">
@@ -1081,11 +720,10 @@
             </div>
 
             <div class="input-controls">
-                <span class="material-icons-round" style="color: var(--accent-blue); cursor: pointer;" onclick="toggleEmojiPicker()">sentiment_satisfied_alt</span>
                 <span class="material-icons-round" style="color: var(--text-muted); cursor: pointer;" onclick="openGallerySheet()">attach_file</span>
                 
                 <div class="input-wrapper" id="input-normal-wrapper">
-                    <input type="text" id="msg-input" placeholder="Сообщение..." autocomplete="off" onclick="closeEmojiPicker()" oninput="handleTypingEvent()">
+                    <input type="text" id="msg-input" placeholder="Сообщение..." autocomplete="off" oninput="handleTypingEvent()">
                 </div>
 
                 <div class="recording-overlay-box" id="recording-box">
@@ -1112,11 +750,6 @@
             <div class="attach-menu-bar" style="display: flex; gap: 10px; margin-bottom: 15px;">
                 <button class="auth-btn" style="flex:1; margin:0;" onclick="triggerFileSelect('image/*,video/*')">Загрузить с устройства</button>
             </div>
-            <div class="gallery-grid" id="gallery-grid-items">
-                <div class="gallery-item" onclick="sendDemoImage('https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400')"><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=200"></div>
-                <div class="gallery-item" onclick="sendDemoImage('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400')"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200"></div>
-                <div class="gallery-item" onclick="sendDemoImage('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400')"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200"></div>
-            </div>
         </div>
     </div>
 
@@ -1129,32 +762,9 @@
                 <span class="material-icons-round">reply</span>
                 <span class="settings-title">Ответить</span>
             </div>
-            <div class="action-item" id="btn-edit-message" onclick="handleEditMessageAction()">
-                <span class="material-icons-round">edit</span>
-                <span class="settings-title">Изменить сообщение</span>
-            </div>
-            <div class="action-item" onclick="handleCopyAction()">
-                <span class="material-icons-round">content_copy</span>
-                <span class="settings-title">Скопировать</span>
-            </div>
-            <div class="action-item" onclick="handleDeleteForMeAction()">
-                <span class="material-icons-round" style="color: var(--accent-orange);">delete</span>
-                <span class="settings-title" style="color: var(--accent-orange);">Удалить у меня</span>
-            </div>
             <div class="action-item" id="btn-delete-everyone" onclick="handleDeleteEveryoneAction()">
                 <span class="material-icons-round" style="color: var(--accent-red);">delete_forever</span>
                 <span class="settings-title" style="color: var(--accent-red);">Удалить у всех</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="sheet-overlay" id="action-sheet-overlay" onclick="closeActionSheet()"></div>
-    <div class="bottom-sheet" id="action-sheet">
-        <div class="sheet-handle-area"><div class="sheet-handle"></div></div>
-        <div class="sheet-content">
-            <div class="action-item" onclick="startCreateGroup()">
-                <span class="material-icons-round">group_add</span>
-                <span class="settings-title">Создать группу</span>
             </div>
         </div>
     </div>
@@ -1209,25 +819,25 @@
   let activeTargetUid = null;
   let activeChatTitle = '';
   let currentChatUnsubscribe = null;
-  let currentMetaUnsubscribe = null;
   let currentStatusUnsubscribe = null;
   let currentUserData = null;
   let currentTargetUserData = null;
 
   let activeSelectedMessage = null;
   let activeReplyMessage = null;
-
   let isLoginMode = false;
   let typingTimeout = null;
 
-  // МЕДИАРЕКОРДЕР И ЗВОНКИ
+  // РАЗДЕЛЬНЫЕ ПОТОКИ ДЛЯ ЗАПИСИ И ЗВОНКОВ
   let mediaRecorder = null;
   let recordedChunks = [];
   let isRecording = false;
   let recordTimerInterval = null;
   let recordSeconds = 0;
   let currentInputMode = 'mic';
-  let localStream = null;
+  let recordStream = null; 
+
+  let callLocalStream = null; 
   let peerConnection = null;
   let activeCallId = null;
   let activeCallRef = null;
@@ -1239,7 +849,12 @@
   let remoteStream = null;
   let pendingIceCandidates = [];
   let isCleaningUpCall = false;
-  const rtcConfig = { iceServers: [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }] };
+  
+  const rtcConfig = { 
+    iceServers: [
+        { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'] }
+    ] 
+  };
 
   function setUserOnlineStatus(isOnline) {
       if (auth.currentUser) {
@@ -1265,9 +880,6 @@
               currentUserData = userDoc.data();
               setupUserProfile(currentUserData.nickname || 'Пользователь');
               applyAvatar(currentUserData.avatarUrl || null);
-              if (currentUserData.username) {
-                  document.getElementById('setting-username-val').value = currentUserData.username;
-              }
           }
           document.getElementById('auth-overlay').style.display = 'none';
           loadUserChats();
@@ -1276,7 +888,6 @@
       }
   });
 
-  /* --- ПОИСК И НАЧАЛО ЧАТА --- */
   function toggleSearchInput() {
       const searchBar = document.getElementById('search-bar-container');
       const resultsSection = document.getElementById('search-results-container');
@@ -1289,9 +900,7 @@
   }
 
   function handleSearchKeyPress(event) {
-      if (event.key === 'Enter') {
-          executeUserSearch();
-      }
+      if (event.key === 'Enter') executeUserSearch();
   }
 
   async function executeUserSearch() {
@@ -1311,14 +920,9 @@
       const formattedUsername = queryVal.startsWith('@') ? queryVal.toLowerCase() : '@' + queryVal.toLowerCase();
 
       try {
-          let querySnapshot = await db.collection('users')
-              .where('username', '==', formattedUsername)
-              .get();
-
+          let querySnapshot = await db.collection('users').where('username', '==', formattedUsername).get();
           if (querySnapshot.empty) {
-              querySnapshot = await db.collection('users')
-                  .where('nickname', '==', queryVal)
-                  .get();
+              querySnapshot = await db.collection('users').where('nickname', '==', queryVal).get();
           }
 
           if (querySnapshot.empty) {
@@ -1341,22 +945,12 @@
               item.innerHTML = `
                   <div class="chat-avatar">${letter}</div>
                   <div class="chat-info">
-                      <div class="chat-meta">
-                          <span class="chat-name">${uData.nickname || 'Пользователь'}</span>
-                      </div>
-                      <div class="chat-last-msg-line">
-                          <span>${uData.username || ''}</span>
-                      </div>
+                      <div class="chat-meta"><span class="chat-name">${uData.nickname || 'Пользователь'}</span></div>
+                      <div class="chat-last-msg-line"><span>${uData.username || ''}</span></div>
                   </div>
               `;
               resultsList.appendChild(item);
           });
-
-          if (resultsList.children.length === 0) {
-              searchError.style.display = 'block';
-              resultsContainer.style.display = 'none';
-          }
-
       } catch (err) {
           console.error("Ошибка поиска:", err);
           searchError.style.display = 'block';
@@ -1367,45 +961,28 @@
       if (!auth.currentUser) return;
       const myUid = auth.currentUser.uid;
       const targetUid = targetUser.uid;
-
       const chatId = myUid < targetUid ? `${myUid}_${targetUid}` : `${targetUid}_${myUid}`;
       const myTitle = targetUser.nickname || targetUser.username;
       
-      const myChatRef = db.collection('user_chats').doc(myUid).collection('chats').doc(chatId);
-      await myChatRef.set({
-          chatId: chatId,
-          title: myTitle,
-          targetUid: targetUid,
-          type: 'contact',
+      await db.collection('user_chats').doc(myUid).collection('chats').doc(chatId).set({
+          chatId, title: myTitle, targetUid, type: 'contact',
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       }, { merge: true });
 
-      const targetChatRef = db.collection('user_chats').doc(targetUid).collection('chats').doc(chatId);
-      await targetChatRef.set({
-          chatId: chatId,
-          title: currentUserData ? (currentUserData.nickname || currentUserData.username) : 'Пользователь',
-          targetUid: myUid,
-          type: 'contact',
+      await db.collection('user_chats').doc(targetUid).collection('chats').doc(chatId).set({
+          chatId, title: currentUserData ? (currentUserData.nickname || currentUserData.username) : 'Пользователь',
+          targetUid: myUid, type: 'contact',
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       }, { merge: true });
 
       document.getElementById('search-bar-container').classList.remove('active');
       document.getElementById('search-results-container').style.display = 'none';
-
       openChat(myTitle, chatId, 'contact', targetUid);
   }
 
-  function openSlideScreen(screenId) {
-      document.getElementById(screenId).classList.add('active');
-  }
-
-  function closeSlideScreen(screenId) {
-      document.getElementById(screenId).classList.remove('active');
-  }
-
-  function closeChatScreen() {
-      closeSlideScreen('screen-chat');
-  }
+  function openSlideScreen(screenId) { document.getElementById(screenId).classList.add('active'); }
+  function closeSlideScreen(screenId) { document.getElementById(screenId).classList.remove('active'); }
+  function closeChatScreen() { closeSlideScreen('screen-chat'); }
 
   function switchTab(tabName, el) {
       document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -1414,7 +991,6 @@
       document.getElementById(`screen-${tabName}`).classList.add('active');
   }
 
-  /* --- ШТОРКА ГАЛЕРЕИ --- */
   function openGallerySheet() {
       document.getElementById('gallery-sheet-overlay').classList.add('active');
       document.getElementById('gallery-sheet').classList.add('active');
@@ -1464,35 +1040,19 @@
       if (!file) return;
       try {
           if (!activeChatId || !auth.currentUser) throw new Error('Откройте чат перед отправкой файла.');
-          const maxBytes = 100 * 1024 * 1024;
-          if (file.size > maxBytes) throw new Error('Файл больше 100 МБ. Выберите файл поменьше.');
+          if (file.size > 100 * 1024 * 1024) throw new Error('Файл больше 100 МБ.');
           const type = file.type || '';
-          let mediaType;
-          if (type.startsWith('image/')) mediaType = 'image';
-          else if (type.startsWith('video/')) mediaType = 'video';
-          else throw new Error('Поддерживаются изображения и видеофайлы.');
+          let mediaType = type.startsWith('image/') ? 'image' : (type.startsWith('video/') ? 'video' : null);
+          if (!mediaType) throw new Error('Поддерживаются только изображения и видео.');
           await saveMediaMessage(file, mediaType, file.name);
       } catch (err) {
-          alert('Не удалось отправить файл: ' + (err.message || err));
+          alert('Ошибка отправки: ' + (err.message || err));
       } finally {
           input.value = '';
       }
   }
 
-  async function sendDemoImage(url) {
-      closeGallerySheet();
-      if (!activeChatId || !auth.currentUser) return;
-      try {
-          const response = await fetch(url);
-          if (!response.ok) throw new Error('Не удалось загрузить изображение.');
-          const blob = await response.blob();
-          await saveMediaMessage(blob, 'image', 'image.jpg');
-      } catch (err) {
-          alert('Не удалось отправить изображение: ' + (err.message || err));
-      }
-  }
-
-  /* --- ГОЛОСОВЫЕ И ВИДЕОСООБЩЕНИЯ --- */
+  /* --- ИСПРАВЛЕННАЯ ЗАПИСЬ ГОЛОСОВЫХ И ВИДЕОСООБЩЕНИЙ --- */
   function handleSendAction() {
       const text = document.getElementById('msg-input').value.trim();
       if (text) sendMessage();
@@ -1521,30 +1081,55 @@
       if (isRecording) { stopMediaRecording(); return; }
       if (!activeChatId || !auth.currentUser) { alert('Сначала откройте чат.'); return; }
       if (!navigator.mediaDevices || !window.MediaRecorder) { alert('Запись не поддерживается этим браузером.'); return; }
+
       try {
           const constraints = isVideoNote ? { video: { facingMode: 'user' }, audio: true } : { audio: true };
-          const stream = await navigator.mediaDevices.getUserMedia(constraints);
-          const mimeCandidates = isVideoNote
-              ? ['video/webm;codecs=vp8,opus', 'video/webm']
-              : ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/aac'];
-          const mimeType = mimeCandidates.find(t => MediaRecorder.isTypeSupported(t));
-          mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
-          localStream = stream;
+          recordStream = await navigator.mediaDevices.getUserMedia(constraints);
+          
+          let mimeType = '';
+          if (isVideoNote) {
+              const videoTypes = ['video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'];
+              mimeType = videoTypes.find(t => MediaRecorder.isTypeSupported(t)) || '';
+          } else {
+              const audioTypes = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/aac'];
+              mimeType = audioTypes.find(t => MediaRecorder.isTypeSupported(t)) || '';
+          }
+
+          mediaRecorder = new MediaRecorder(recordStream, mimeType ? { mimeType } : undefined);
           recordedChunks = [];
           isRecording = true;
-          mediaRecorder.ondataavailable = e => { if (e.data && e.data.size) recordedChunks.push(e.data); };
-          mediaRecorder.onerror = e => { alert('Ошибка записи: ' + (e.error?.message || 'неизвестная ошибка')); cancelMediaRecording(); };
+
+          mediaRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) recordedChunks.push(e.data); };
+          mediaRecorder.onerror = e => { 
+              alert('Ошибка записи: ' + (e.error?.message || 'ошибка')); 
+              cancelMediaRecording(); 
+          };
+          
           mediaRecorder.onstop = async () => {
-              stream.getTracks().forEach(track => track.stop());
-              if (localStream === stream) localStream = null;
+              const streamToClose = recordStream;
+              recordStream = null;
+              if (streamToClose) streamToClose.getTracks().forEach(track => track.stop());
+
               const wasCancelled = !isRecording;
               isRecording = false;
+
+              if (wasCancelled || recordedChunks.length === 0) {
+                  recordedChunks = [];
+                  return;
+              }
+
               const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || (isVideoNote ? 'video/webm' : 'audio/webm') });
               recordedChunks = [];
-              if (wasCancelled || !blob.size) return;
-              try { await saveMediaMessage(blob, isVideoNote ? 'video_note' : 'voice', isVideoNote ? 'video-note.webm' : 'voice.webm'); }
-              catch (err) { alert('Не удалось отправить запись: ' + (err.message || err)); }
+
+              if (blob.size === 0) return;
+
+              try { 
+                  await saveMediaMessage(blob, isVideoNote ? 'video_note' : 'voice', isVideoNote ? 'video-note.webm' : 'voice.webm'); 
+              } catch (err) { 
+                  alert('Не удалось отправить запись: ' + (err.message || err)); 
+              }
           };
+
           mediaRecorder.start(250);
           showRecordingUI();
       } catch (err) {
@@ -1573,7 +1158,10 @@
   function cancelMediaRecording() {
       isRecording = false;
       if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-      else if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
+      else if (recordStream) {
+          recordStream.getTracks().forEach(t => t.stop());
+          recordStream = null;
+      }
       recordedChunks = [];
       resetRecordingUI();
   }
@@ -1588,7 +1176,7 @@
       updateActionIcon();
   }
 
-  /* --- WEBRTC ЗВОНКИ --- */
+  /* --- ИСПРАВЛЕННЫЕ WEBRTC ЗВОНКИ --- */
   function listenForIncomingCalls(uid) {
       if (incomingCallRef) incomingCallRef.off();
       incomingCallRef = firebase.database().ref(`users/${uid}/incomingCall`);
@@ -1626,16 +1214,25 @@
       remoteStream = new MediaStream();
       const remoteVideo = document.getElementById('remote-video');
       const remoteAudio = document.getElementById('remote-audio');
+      
       peerConnection.ontrack = event => {
           event.streams[0]?.getTracks().forEach(track => remoteStream.addTrack(track));
-          if (remoteStream.getVideoTracks().length) {
+          if (remoteStream.getVideoTracks().length > 0) {
               remoteVideo.srcObject = remoteStream;
-              remoteVideo.muted = true;
               remoteVideo.style.display = 'block';
           }
           remoteAudio.srcObject = remoteStream;
           remoteAudio.play().catch(() => {});
       };
+
+      peerConnection.oniceconnectionstatechange = () => {
+          if (!peerConnection) return;
+          const state = peerConnection.iceConnectionState;
+          if (state === 'failed' || state === 'disconnected' || state === 'closed') {
+              if (!isCleaningUpCall) endCall();
+          }
+      };
+
       const candidatesRef = firebase.database().ref(`calls/${callId}/${isCaller ? 'calleeCandidates' : 'callerCandidates'}`);
       const candidateListener = candidatesRef.on('child_added', snap => {
           const candidate = snap.val();
@@ -1648,6 +1245,7 @@
           }
       });
       callListeners.push(() => candidatesRef.off('child_added', candidateListener));
+
       const statusRef = firebase.database().ref(`calls/${callId}/status`);
       const statusListener = statusRef.on('value', snap => {
           const status = snap.val();
@@ -1655,28 +1253,34 @@
               isCleaningUpCall = true;
               const statusEl = document.getElementById('call-status-text');
               if (statusEl) statusEl.textContent = status === 'rejected' ? 'Звонок отклонён' : 'Звонок завершён';
-              setTimeout(() => { endCall(); }, 250);
+              setTimeout(() => { endCall(); }, 300);
           }
       });
       callListeners.push(() => statusRef.off('value', statusListener));
+
       peerConnection.onicecandidate = event => {
-          if (event.candidate) firebase.database().ref(`calls/${callId}/${isCaller ? 'callerCandidates' : 'calleeCandidates'}`).push(event.candidate.toJSON());
+          if (event.candidate) {
+              firebase.database().ref(`calls/${callId}/${isCaller ? 'callerCandidates' : 'calleeCandidates'}`).push(event.candidate.toJSON());
+          }
       };
+
       peerConnection.onconnectionstatechange = () => {
           const status = document.getElementById('call-status-text');
           if (!status || !peerConnection) return;
-          const labels = { connected: 'На связи', connecting: 'Соединение…', disconnected: 'Связь прервана', failed: 'Не удалось соединиться', closed: 'Звонок завершён' };
+          const labels = { connected: 'На связи', connecting: 'Соединение…', disconnected: 'Связь прервана', failed: 'Ошибка связи', closed: 'Завершено' };
           status.textContent = labels[peerConnection.connectionState] || 'Соединение…';
           if (peerConnection.connectionState === 'failed') endCall();
       };
-      if (!localStream) throw new Error('Нет локального медиапотока.');
-      localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+      if (!callLocalStream) throw new Error('Нет локального медиапотока.');
+      callLocalStream.getTracks().forEach(track => peerConnection.addTrack(track, callLocalStream));
       return peerConnection;
   }
 
   async function startCall(isVideo = false) {
-      if (!activeTargetUid || !activeChatId || !auth.currentUser) { alert('Для звонка откройте личный чат с пользователем.'); return; }
+      if (!activeTargetUid || !activeChatId || !auth.currentUser) { alert('Для звонка откройте личный чат.'); return; }
       if (activeCallId) { alert('Звонок уже активен.'); return; }
+
       callIsVideo = !!isVideo;
       callIsCaller = true;
       const statusEl = document.getElementById('call-status-text');
@@ -1684,17 +1288,30 @@
       document.getElementById('call-avatar').textContent = (activeChatTitle || 'С').charAt(0).toUpperCase();
       statusEl.textContent = 'Запрашиваем доступ…';
       document.getElementById('screen-call').classList.add('active');
+
       try {
-          localStream = await navigator.mediaDevices.getUserMedia(isVideo ? { video: true, audio: true } : { audio: true });
+          callLocalStream = await navigator.mediaDevices.getUserMedia(isVideo ? { video: true, audio: true } : { audio: true });
           const localVideo = document.getElementById('local-video-bg');
-          localVideo.srcObject = localStream;
+          localVideo.srcObject = callLocalStream;
           localVideo.style.display = isVideo ? 'block' : 'none';
+
           activeCallId = firebase.database().ref('calls').push().key;
           activeCallRef = firebase.database().ref(`calls/${activeCallId}`);
+          
           const pc = await createPeerConnection(activeCallId, true);
           const offer = await pc.createOffer();
           await pc.setLocalDescription(offer);
-          await activeCallRef.set({ caller: auth.currentUser.uid, callee: activeTargetUid, callerName: currentUserData?.nickname || auth.currentUser.displayName || 'Пользователь', isVideo: !!isVideo, offer: { type: offer.type, sdp: offer.sdp }, status: 'ringing', createdAt: firebase.database.ServerValue.TIMESTAMP });
+
+          await activeCallRef.set({ 
+              caller: auth.currentUser.uid, 
+              callee: activeTargetUid, 
+              callerName: currentUserData?.nickname || auth.currentUser.displayName || 'Пользователь', 
+              isVideo: !!isVideo, 
+              offer: { type: offer.type, sdp: offer.sdp }, 
+              status: 'ringing', 
+              createdAt: firebase.database.ServerValue.TIMESTAMP 
+          });
+
           const answerRef = activeCallRef.child('answer');
           const answerListener = answerRef.on('value', async snap => {
               const answer = snap.val();
@@ -1706,6 +1323,7 @@
               }
           });
           callListeners.push(() => answerRef.off('value', answerListener));
+
           await firebase.database().ref(`users/${activeTargetUid}/incomingCall`).set({ callId: activeCallId });
           statusEl.textContent = 'Вызов…';
       } catch (err) {
@@ -1723,21 +1341,27 @@
       activeCallRef = firebase.database().ref(`calls/${activeCallId}`);
       callIsCaller = false;
       callIsVideo = !!call.isVideo;
+
       document.getElementById('call-name').textContent = call.callerName || 'Собеседник';
       document.getElementById('call-avatar').textContent = (call.callerName || 'С').charAt(0).toUpperCase();
       document.getElementById('call-status-text').textContent = 'Подключаемся…';
       document.getElementById('screen-call').classList.add('active');
+
       try {
-          localStream = await navigator.mediaDevices.getUserMedia(callIsVideo ? { video: true, audio: true } : { audio: true });
+          callLocalStream = await navigator.mediaDevices.getUserMedia(callIsVideo ? { video: true, audio: true } : { audio: true });
           const localVideo = document.getElementById('local-video-bg');
-          localVideo.srcObject = localStream;
+          localVideo.srcObject = callLocalStream;
           localVideo.style.display = callIsVideo ? 'block' : 'none';
+
           const pc = await createPeerConnection(activeCallId, false);
           await pc.setRemoteDescription(new RTCSessionDescription(call.offer));
+          
           const queued = pendingIceCandidates.splice(0);
           for (const ice of queued) await pc.addIceCandidate(ice).catch(console.warn);
+
           const answer = await pc.createAnswer();
           await pc.setLocalDescription(answer);
+
           await activeCallRef.child('answer').set({ type: answer.type, sdp: answer.sdp });
           await activeCallRef.update({ status: 'active' });
           await firebase.database().ref(`users/${auth.currentUser.uid}/incomingCall`).remove();
@@ -1761,16 +1385,31 @@
       if (isCleaningUpCall && !activeCallId) return;
       const callId = activeCallId;
       isCleaningUpCall = true;
-      if (callListeners.length) callListeners.forEach(off => { try { off(); } catch (_) {} });
-      callListeners = [];
-      if (peerConnection) { try { peerConnection.close(); } catch (_) {} peerConnection = null; }
-      if (localStream) { localStream.getTracks().forEach(track => track.stop()); localStream = null; }
+
+      if (callListeners.length) {
+          callListeners.forEach(off => { try { off(); } catch (_) {} });
+          callListeners = [];
+      }
+
+      if (peerConnection) {
+          try { peerConnection.close(); } catch (_) {}
+          peerConnection = null;
+      }
+
+      if (callLocalStream) {
+          callLocalStream.getTracks().forEach(track => track.stop());
+          callLocalStream = null;
+      }
+      
       remoteStream = null;
+
       ['local-video-bg','remote-video','remote-audio'].forEach(id => {
           const el = document.getElementById(id);
           if (el) { el.srcObject = null; if (id !== 'remote-audio') el.style.display = 'none'; }
       });
+
       document.getElementById('screen-call').classList.remove('active');
+
       if (callId && auth.currentUser) {
           const callRef = firebase.database().ref(`calls/${callId}`);
           const snap = await callRef.once('value').catch(() => null);
@@ -1781,6 +1420,7 @@
               if (call.caller) await firebase.database().ref(`users/${call.caller}/incomingCall`).remove().catch(() => {});
           }
       }
+
       activeCallId = null;
       activeCallRef = null;
       pendingIceCandidates = [];
@@ -1789,8 +1429,8 @@
   }
 
   function toggleCallMute() {
-      if (!localStream) return;
-      const audioTrack = localStream.getAudioTracks()[0];
+      if (!callLocalStream) return;
+      const audioTrack = callLocalStream.getAudioTracks()[0];
       if (audioTrack) {
           audioTrack.enabled = !audioTrack.enabled;
           document.getElementById('call-mute-icon').textContent = audioTrack.enabled ? 'mic_off' : 'mic';
@@ -1816,14 +1456,14 @@
 
       await db.collection('chats').doc(activeChatId).collection('messages').add(msgData);
 
-      db.collection('user_chats').doc(auth.currentUser.uid).collection('chats').doc(activeChatId).update({
+      db.collection('user_chats').doc(auth.currentUser.uid).collection('chats').doc(activeChatId).set({
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      }).catch(() => {});
+      }, { merge: true }).catch(() => {});
 
       if (activeTargetUid) {
-          db.collection('user_chats').doc(activeTargetUid).collection('chats').doc(activeChatId).update({
+          db.collection('user_chats').doc(activeTargetUid).collection('chats').doc(activeChatId).set({
               updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          }).catch(() => {});
+          }, { merge: true }).catch(() => {});
       }
 
       cancelReply();
@@ -1895,6 +1535,7 @@
       document.getElementById('current-chat-title').textContent = title;
       document.getElementById('current-chat-status').textContent = 'статус неизвестен';
       document.getElementById('current-chat-avatar').textContent = title.charAt(0).toUpperCase();
+      
       if (currentStatusUnsubscribe) { currentStatusUnsubscribe(); currentStatusUnsubscribe = null; }
       if (targetUid) {
           currentStatusUnsubscribe = db.collection('users').doc(targetUid).onSnapshot(userSnap => {
@@ -1922,20 +1563,19 @@
                   const isMe = auth.currentUser && data.senderUid === auth.currentUser.uid;
 
                   msgEl.onclick = () => openMsgContextMenu(data);
-
-                  let replyHtml = data.replyTo ? `<div class="msg-reply-preview">↳ ${data.replyTo.text || 'Медиа'}</div>` : '';
+                  let replyHtml = data.replyTo ? `<div class="msg-reply-preview">↳ ${escapeHtml(data.replyTo.text || 'Медиа')}</div>` : '';
 
                   if (data.mediaUrl) {
                       msgEl.className = `message ${isMe ? 'msg-sent' : 'msg-received'}`;
                       let mediaHtml = '';
                       if (data.mediaType === 'image') mediaHtml = `<img src="${data.mediaUrl}" class="msg-media" loading="lazy">`;
-                      else if (data.mediaType === 'video') mediaHtml = `<video src="${data.mediaUrl}" class="msg-video" controls playsinline preload="metadata"></video>`;
+                      else if (data.mediaType === 'video') mediaHtml = `<video src="${data.mediaUrl}" class="msg-media" controls playsinline preload="metadata"></video>`;
                       else if (data.mediaType === 'video_note') mediaHtml = `<video src="${data.mediaUrl}" autoplay loop muted playsinline class="msg-video-note"></video>`;
                       else if (data.mediaType === 'voice') mediaHtml = `<audio src="${data.mediaUrl}" controls class="msg-audio-player"></audio>`;
                       msgEl.innerHTML = replyHtml + mediaHtml;
                   } else {
                       msgEl.className = `message ${isMe ? 'msg-sent' : 'msg-received'}`;
-                      msgEl.innerHTML = replyHtml + `<span>${escapeHtml(data.text || '')}${data.edited ? ' <small style="opacity:.65">(изменено)</small>' : ''}</span>`;
+                      msgEl.innerHTML = replyHtml + `<span>${escapeHtml(data.text || '')}</span>`;
                   }
                   container.appendChild(msgEl);
               });
@@ -1947,8 +1587,6 @@
 
   function openMsgContextMenu(msgData) {
       activeSelectedMessage = msgData;
-      const editButton = document.getElementById('btn-edit-message');
-      if (editButton) editButton.style.display = (auth.currentUser && msgData.senderUid === auth.currentUser.uid && !msgData.mediaUrl) ? 'flex' : 'none';
       document.getElementById('msg-menu-overlay').classList.add('active');
       document.getElementById('msg-menu-sheet').classList.add('active');
   }
@@ -1971,22 +1609,6 @@
       document.getElementById('chat-reply-bar').classList.remove('active');
   }
 
-  function handleCopyAction() {
-      closeMsgContextMenu();
-      if (activeSelectedMessage && activeSelectedMessage.text) {
-          navigator.clipboard.writeText(activeSelectedMessage.text);
-      }
-  }
-
-  async function handleDeleteForMeAction() {
-      closeMsgContextMenu();
-      if (activeSelectedMessage && auth.currentUser) {
-          await db.collection('chats').doc(activeChatId).collection('messages').doc(activeSelectedMessage.id).update({
-              hiddenFor: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.uid)
-          });
-      }
-  }
-
   async function handleDeleteEveryoneAction() {
       closeMsgContextMenu();
       if (activeSelectedMessage && auth.currentUser && activeSelectedMessage.senderUid === auth.currentUser.uid) {
@@ -2005,16 +1627,6 @@
       openSlideScreen('screen-user-profile');
   }
 
-  function openActionSheet() {
-      document.getElementById('action-sheet-overlay').classList.add('active');
-      document.getElementById('action-sheet').classList.add('active');
-  }
-
-  function closeActionSheet() {
-      document.getElementById('action-sheet-overlay').classList.remove('active');
-      document.getElementById('action-sheet').classList.remove('active');
-  }
-
   function togglePasswordVisibility() {
       const input = document.getElementById('reg-password');
       const eye = document.querySelector('#password-eye .material-icons-round');
@@ -2024,7 +1636,6 @@
       eye.textContent = showing ? 'visibility_off' : 'visibility';
       monkey.textContent = showing ? '🙉' : '🙈';
       monkey.classList.toggle('peek', showing);
-      document.getElementById('password-eye').setAttribute('aria-label', showing ? 'Скрыть пароль' : 'Показать пароль');
   }
 
   function applyAvatar(url) {
@@ -2041,7 +1652,7 @@
       const file = event.target.files && event.target.files[0];
       if (!file || !auth.currentUser) return;
       if (!file.type.startsWith('image/')) { alert('Выберите изображение.'); return; }
-      if (file.size > 5 * 1024 * 1024) { alert('Размер аватарки не должен превышать 5 МБ.'); return; }
+      if (file.size > 5 * 1024 * 1024) { alert('Максимальный размер аватарки 5 МБ.'); return; }
       try {
           const ref = storage.ref(`avatars/${auth.currentUser.uid}/avatar_${Date.now()}`);
           const snapshot = await ref.put(file);
@@ -2050,7 +1661,10 @@
           currentUserData = { ...(currentUserData || {}), avatarUrl: url };
           applyAvatar(url);
           alert('Аватарка обновлена!');
-      } catch (error) { console.error(error); alert('Не удалось загрузить аватарку. Проверьте правила Firebase Storage.'); }
+      } catch (error) { 
+          console.error(error); 
+          alert('Не удалось загрузить аватарку.'); 
+      }
       event.target.value = '';
   }
 
@@ -2062,18 +1676,8 @@
       if (Number.isNaN(date.getTime())) return 'был(а) недавно';
       const now = new Date();
       const sameDay = date.toDateString() === now.toDateString();
-      const yesterday = new Date(now); yesterday.setDate(now.getDate()-1);
-      
       const timeStr = date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-      
-      if (sameDay) {
-          return `был(а) сегодня в ${timeStr}`;
-      } else if (date.toDateString() === yesterday.toDateString()) {
-          return `был(а) вчера в ${timeStr}`;
-      } else {
-          const dateStr = date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-          return `был(а) ${dateStr} в ${timeStr}`;
-      }
+      return sameDay ? `был(а) сегодня в ${timeStr}` : `был(а) недавно`;
   }
 
   function startPresenceTracking(uid) {
@@ -2081,28 +1685,9 @@
       const connectedRef = firebase.database().ref('.info/connected');
       connectedRef.on('value', snap => {
           if (snap.val() !== true) return;
-          const onlineData = { state:'online', last_changed: firebase.database.ServerValue.TIMESTAMP };
-          presenceRef.onDisconnect().set({ state:'offline', last_changed: firebase.database.ServerValue.TIMESTAMP }).then(() => presenceRef.set(onlineData));
+          presenceRef.onDisconnect().set({ state:'offline', last_changed: firebase.database.ServerValue.TIMESTAMP })
+              .then(() => presenceRef.set({ state:'online', last_changed: firebase.database.ServerValue.TIMESTAMP }));
       });
-      const heartbeat = () => setUserOnlineStatus(!document.hidden);
-      document.removeEventListener('visibilitychange', heartbeat);
-      document.addEventListener('visibilitychange', heartbeat);
-      window.addEventListener('pagehide', () => {
-          presenceRef.set({ state:'offline', last_changed: firebase.database.ServerValue.TIMESTAMP });
-          setUserOnlineStatus(false);
-      }, { once:true });
-  }
-
-  async function handleEditMessageAction() {
-      closeMsgContextMenu();
-      if (!activeSelectedMessage || activeSelectedMessage.senderUid !== auth.currentUser?.uid || activeSelectedMessage.mediaUrl) return;
-      const revised = prompt('Изменить сообщение:', activeSelectedMessage.text || '');
-      if (revised === null) return;
-      const text = revised.trim();
-      if (!text) { alert('Сообщение не может быть пустым.'); return; }
-      try {
-          await db.collection('chats').doc(activeChatId).collection('messages').doc(activeSelectedMessage.id).update({ text, edited:true, editedAt: firebase.firestore.FieldValue.serverTimestamp() });
-      } catch (error) { console.error(error); alert('Не удалось изменить сообщение.'); }
   }
 
   function toggleAuthMode() {
@@ -2119,7 +1704,6 @@
       if (!username.startsWith('@')) username = '@' + username;
       const virtualEmail = `${username.replace('@', '').toLowerCase()}@gramka.app`;
       if (!username || !password || (!isLoginMode && !nickname)) { alert('Заполните все поля.'); return; }
-      if (!isLoginMode && password.length < 6) { alert('Пароль должен содержать не менее 6 символов.'); return; }
 
       try {
           if (!isLoginMode) {
